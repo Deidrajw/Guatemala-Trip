@@ -2286,6 +2286,15 @@ function initAll(){
       if(saved && saved.length>200){document.getElementById(id).innerHTML=saved;}
     });
   }
+  // Accommodation source of truth: the Nov 29 overnight is Zephyr Lodge in Lanquín.
+  // A prior browser-saved Stays panel may still contain the replaced Cobán Airbnb.
+  // Refresh ONLY Stays once for this accommodation revision; leave other saved tabs alone.
+  const staysRevision='2026-11-22-zephyr-lanquin-stays';
+  if(LS.getItem('gtm_stays_revision')!==staysRevision){
+    LS.removeItem('gtm4_stays');
+    renderHotels();
+    LS.setItem('gtm_stays_revision',staysRevision);
+  }
   LS.setItem('gtm_content_build',CONTENT_BUILD);
   renderPacking();renderBudget();
   const tripBudget=budgetRows.reduce((sum,row)=>sum+(parseFloat(row.budgeted)||0),0);
